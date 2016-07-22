@@ -1,5 +1,4 @@
-﻿using mess_lib;
-using System;
+﻿using System;
 
 namespace file_mess
 {
@@ -17,7 +16,7 @@ namespace file_mess
             String fileName = @"D:\cache\[EMD][Sankarea][BDRip][01][GB_BIG5][x264_FLAC][1B50A44A].mkv_20151125_231825.750.jpg";
             String fileName2 = @"D:\cache\f4a605b285644f319daaef386eb00c7a";
             //FileMess.Mess(fileName, MessOption.MESS);
-            FileMess.Mess(fileName2, MessOption.UNMESS);
+            //FileMess.Mess(fileName2, MessOption.UNMESS);
             Console.ReadLine();
         }
 

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace mess_lib
+namespace share
 {
    public delegate void AfterMess(String fileName);
     public class FileMess

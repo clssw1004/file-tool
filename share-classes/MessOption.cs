@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace mess_lib
+namespace share
 {
+    /// <summary>
+    /// 混淆选项枚举
+    /// </summary>
     public enum MessOption
     {
         MESS = 0,
