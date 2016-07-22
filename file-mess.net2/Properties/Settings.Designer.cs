@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace file_mess_tool.Properties
+namespace file_mess.net2.Properties
 {
 
 

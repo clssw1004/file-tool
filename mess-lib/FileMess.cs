@@ -1,16 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace mess_lib
 {
+   public delegate void AfterMess(String fileName);
     public class FileMess
     {
-
         private const int buffer_size = 9737;
         private const int file_head = 4096;
-        public static void MessDir(String dirName, MessOption option, bool delAfterMess = false)
+        public static void MessDir(String dirName, MessOption option, bool delAfterMess = false, AfterMess am = null)
         {
             DirectoryInfo di = new DirectoryInfo(dirName);
             if (!di.Exists)
@@ -23,9 +22,15 @@ namespace mess_lib
                 try
                 {
                     if (f is FileInfo)
-                        Mess(f.FullName, option, delAfterMess);
+                    {
+                        String name = Mess(f.FullName, option, delAfterMess);
+                        if (am != null)
+                            am(name);
+                    }
                     else if (f is DirectoryInfo)
+                    {
                         MessDir(f.FullName, option, delAfterMess);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -90,7 +95,7 @@ namespace mess_lib
                 int len = 0;
                 while ((len = br.Read(buffer, 0, index++)) != 0)
                 {
-                    buffer.Reverse();
+                    Array.Reverse(buffer,0,len);
                     bw.Write(buffer, 0, len);
                     if (index >= buffer.Length)
                         index = 2;
