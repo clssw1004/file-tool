@@ -113,10 +113,12 @@
             // 
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(0, 193);
+            this.listBox1.Location = new System.Drawing.Point(0, 174);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(590, 124);
+            this.listBox1.ScrollAlwaysVisible = true;
+            this.listBox1.Size = new System.Drawing.Size(590, 259);
             this.listBox1.TabIndex = 6;
             // 
             // button2
@@ -133,7 +135,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 317);
+            this.ClientSize = new System.Drawing.Size(590, 433);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.checkBox2);
