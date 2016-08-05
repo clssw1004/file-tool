@@ -61,10 +61,12 @@ namespace file_mess.net2
                 {
                     try
                     {
+                        //new thread
                         new Thread(() =>
                         {
                             FileMess.MessDir(path, option, isDel, Log);
-                        }).Start();
+                        })
+                        { IsBackground = true }.Start();
                     }
                     catch (Exception ex)
                     {
@@ -87,7 +89,8 @@ namespace file_mess.net2
                                 String newName = FileMess.Mess(name, option, isDel);
                                 Log("--->" + newName);
                             }
-                        }).Start();
+                        })
+                        { IsBackground = true }.Start();
                     }
                     catch (Exception ex)
                     {
