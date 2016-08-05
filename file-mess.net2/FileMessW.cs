@@ -1,7 +1,6 @@
 ﻿using share;
 using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace file_mess.net2
@@ -26,6 +25,7 @@ namespace file_mess.net2
                     if (!String.IsNullOrEmpty(path))
                     {
                         textBox1.Text = path;
+                        Log(@"已选择文件夹--->" + path);
                         button2.Enabled = true;
                     }
                 }
@@ -38,70 +38,42 @@ namespace file_mess.net2
         private void Log(String log)
         {
             if (!String.IsNullOrEmpty(log))
-            {
-                this.Invoke(new Logger((String msg) =>
-                {
-                    listBox1.Items.Add(msg);
-                    listBox1.SelectedIndex = listBox1.Items.Count - 1;
-                }), new Object[] { log });
-            }
-
+                listBox1.Items.Add(log);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             button2.Enabled = false;
             button1.Enabled = false;
+            Log(@"开始执行操作");
             MessOption option = radioButton1.Checked ? MessOption.MESS : MessOption.UNMESS;
-            bool isDel = checkBox2.Checked;
             if (checkBox1.Checked)
             {
                 String path = textBox1.Text;
                 if (!String.IsNullOrEmpty(path) && Directory.Exists(path))
                 {
-                    try
-                    {
-                        new Thread(() =>
-                        {
-                            FileMess.MessDir(path, option, isDel, Log);
-                        }).Start();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("无法处理的异常：" + ex.Message);
-                    }
+                    FileMess.MessDir(path, option, checkBox2.Checked, Log);
                 }
             }
             else
             {
                 if (openFileDialog1.FileNames != null && openFileDialog1.FileNames.Length > 0)
                 {
-                    try
+                    foreach (var name in openFileDialog1.FileNames)
                     {
-                        String[] names = openFileDialog1.FileNames;
-                        new Thread(() =>
-                        {
-                            foreach (var name in names)
-                            {
-                                Log("<---" + name);
-                                String newName = FileMess.Mess(name, option, isDel);
-                                Log("--->" + newName);
-                            }
-                        }).Start();
+                        Log("文件：" + name);
+                        String newName = FileMess.Mess(name, option, checkBox2.Checked);
+                        Log("--->" + newName);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("无法处理的异常：" + ex.Message);
-                    }
-
                 }
             }
+            Log(@"任务完成");
             button1.Enabled = true;
             textBox1.Text = "";
         }
         private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            
             if (openFileDialog1.FileNames != null && openFileDialog1.FileNames.Length > 0)
             {
                 foreach (var name in openFileDialog1.SafeFileNames)

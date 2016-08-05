@@ -4,14 +4,13 @@ using System.Text;
 
 namespace share
 {
-    public delegate void Logger(String fileName);
+   public delegate void AfterMess(String fileName);
     public class FileMess
     {
         private const int buffer_size = 9737;
         private const int file_head = 4096;
-        public static void MessDir(String dirName, MessOption option, bool delAfterMess = false, Logger am = null)
+        public static void MessDir(String dirName, MessOption option, bool delAfterMess = false, AfterMess am = null)
         {
-            am?.Invoke("<---dir:" + dirName);
             DirectoryInfo di = new DirectoryInfo(dirName);
             if (!di.Exists)
             {
@@ -24,15 +23,13 @@ namespace share
                 {
                     if (f is FileInfo)
                     {
-                        am?.Invoke("<---" + f.FullName);
                         String name = Mess(f.FullName, option, delAfterMess);
-                        am?.Invoke("--->" + name);
-                        am?.Invoke("\n");
+                        if (am != null)
+                            am(name);
                     }
                     else if (f is DirectoryInfo)
                     {
-                        
-                        MessDir(f.FullName, option, delAfterMess, am);
+                        MessDir(f.FullName, option, delAfterMess);
                     }
                 }
                 catch (Exception e)
@@ -42,7 +39,6 @@ namespace share
                     continue;
                 }
             }
-            am?.Invoke("<---dir :" + dirName);
         }
 
         /// <summary>
@@ -99,7 +95,7 @@ namespace share
                 int len = 0;
                 while ((len = br.Read(buffer, 0, index++)) != 0)
                 {
-                    Array.Reverse(buffer, 0, len);
+                    Array.Reverse(buffer,0,len);
                     bw.Write(buffer, 0, len);
                     if (index >= buffer.Length)
                         index = 2;
